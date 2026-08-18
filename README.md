@@ -1,1 +1,1 @@
-<img src="https://i.redd.it/rgcefryl4bxf1.gif" width="100%" alt="Bee Movie" />
+<img src="./bee-movie.gif" width="100%" alt="Bee Movie" />
