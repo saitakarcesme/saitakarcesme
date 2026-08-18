@@ -1,1 +1,1 @@
-<img src="./bee-movie-profile.gif" width="100%" alt="Bee Movie" />
+<img src="./bee-movie-profile-smooth.webp" width="100%" alt="Bee Movie" />
