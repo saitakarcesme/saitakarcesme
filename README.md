@@ -1,1 +1,1 @@
-<img src="./animation-grid.webp" width="100%" alt="Bee Movie, Zootopia, Spirited Away, My Neighbor Totoro, Kiki’s Delivery Service, Whisper of the Heart, Princess Mononoke, Nausicaä of the Valley of the Wind, and How to Train Your Dragon 2 in a 3×3 animated grid" />
+<img src="./bee-movie-profile-hq.webp" width="100%" alt="Bee Movie" />
