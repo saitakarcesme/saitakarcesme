@@ -1,1 +1,1 @@
-<img src="./digital-earth.webp" width="100%" alt="A rotating Earth drawn with white coastlines on a transparent background, beside saitakarcesme’s public repository, star, pull request and yearly commit counts." />
+<img src="./bee-movie-profile-hq.webp" width="100%" alt="Bee Movie" />

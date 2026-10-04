@@ -2,14 +2,6 @@ name: Refresh public profile statistics
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '17 4 * * *'
-  push:
-    branches: [main]
-    paths:
-      - tools/build_digital_earth.py
-      - assets/earth-coastlines.geojson
-      - .github/workflows/refresh-profile.yml
 
 permissions:
   contents: write
