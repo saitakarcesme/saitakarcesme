@@ -127,10 +127,10 @@ def frame(n,stats):
     label(d,38,26,'SAITAKARCESME',19,235)
     label(d,922,33,'GITHUB / PUBLIC ACTIVITY',11,125,'right')
     line(d,[(38,69),(922,69)],45)
-    # The Earth outline remains a hairline; only the visible hemisphere is drawn.
-    d.ellipse(((CX-R)*SS,(CY-R)*SS,(CX+R)*SS,(CY+R)*SS),outline=145,width=1)
-    for path in GRID:stroke_visible(d,path,angle,38,1)
-    for path in COAST:stroke_visible(d,path,angle,230,2)
+    # Slightly stronger strokes; only the visible hemisphere is drawn.
+    d.ellipse(((CX-R)*SS,(CY-R)*SS,(CX+R)*SS,(CY+R)*SS),outline=170,width=2)
+    for path in GRID:stroke_visible(d,path,angle,48,2)
+    for path in COAST:stroke_visible(d,path,angle,240,3)
     # Sparse cartographic registration marks give the globe breathing room.
     for x,y,dx,dy in [(CX-R-12,CY,-1,0),(CX+R+12,CY,1,0),(CX,CY-R-12,0,-1),(CX,CY+R+12,0,1)]:
         line(d,[(x,y),(x+dx*7,y+dy*7)],100)
@@ -144,18 +144,20 @@ def frame(n,stats):
     # Honest snapshot metadata, rather than a simulated live feed.
     updated=dt.datetime.fromisoformat(stats['updated_at'].replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Luxembourg')).date().isoformat()
     label(d,922,519,'UPDATED '+updated,10,90,'right')
-    return im.resize((W,H),Image.Resampling.LANCZOS)
+    # White strokes with graded opacity keep antialiasing free of black halos.
+    alpha=im.resize((W,H),Image.Resampling.LANCZOS)
+    transparent=Image.new('RGBA',(W,H),(255,255,255,0))
+    transparent.putalpha(alpha)
+    return transparent
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--refresh',action='store_true');args=parser.parse_args()
     stats=refresh() if args.refresh else json.loads(STATS_PATH.read_text())
     frames=[frame(n,stats) for n in range(FPS*SECONDS)]
     durations=[round((n+1)*1000/FPS/10)*10-round(n*1000/FPS/10)*10 for n in range(len(frames))]
-    # A shared grayscale palette preserves the antialiased fine strokes.
-    palette=Image.new('P',(1,1));palette.putpalette([v for i in range(256) for v in (i,i,i)])
-    indexed=[f.convert('RGB').quantize(palette=palette,dither=Image.Dither.NONE) for f in frames]
-    destination=ROOT/'digital-earth.gif'
-    indexed[0].save(destination,save_all=True,append_images=indexed[1:],duration=durations,loop=0,optimize=False,disposal=1)
+    # Animated WebP preserves the full alpha channel and smooth fine strokes.
+    destination=ROOT/'digital-earth.webp'
+    frames[0].save(destination,save_all=True,append_images=frames[1:],duration=durations,loop=0,lossless=True,method=4)
     preview=ROOT.parent/'output/digital-earth';preview.mkdir(parents=True,exist_ok=True)
     frames[4*FPS].save(preview/'preview.png')
     print(f'{destination}: {destination.stat().st_size:,} bytes / {sum(durations)} ms',flush=True)
