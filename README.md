@@ -1,1 +1,1 @@
-<img src="./bee-movie-profile-hq.webp" width="100%" alt="Bee Movie" />
+<img src="./pixel-city.gif" width="100%" alt="Sait Akarcesme’s animated pixel city: PocketLore, LocalBot, Akorith and OpenMirror buildings, changing window lights, a walking character and a waterfront tram." />
